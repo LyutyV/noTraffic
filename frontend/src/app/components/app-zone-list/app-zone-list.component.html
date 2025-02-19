@@ -1,0 +1,16 @@
+<div class="zone-list">
+    <h2>Zones list</h2>
+    <ul>
+        <li *ngFor="let zone of zones">
+            <div class="zone-info">
+                <span class="zone-name"
+                    ><strong>{{ zone.name }}</strong> (ID: {{ zone.id }})</span
+                >
+                <button [disabled]="loading" (click)="onDeleteZone(zone.id)">Delete</button>
+            </div>
+            <div class="zone-coordinates">
+                <span *ngFor="let point of zone.points"> [{{ point?.x }}, {{ point?.y }}] </span>
+            </div>
+        </li>
+    </ul>
+</div>

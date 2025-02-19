@@ -1,0 +1,4 @@
+<div class="zone-manager">
+    <app-zone-canvas [zones]="(zones$ | async) || []" (createZone)="onCreateZone($event)"> </app-zone-canvas>
+    <app-zone-list [zones]="(zones$ | async) || []" [loading]="(loading$ | async) || false" (deleteZone)="onDeleteZone($event)"> </app-zone-list>
+</div>

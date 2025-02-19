@@ -1,0 +1,35 @@
+# -- Python --
+__pycache__/
+*.py[cod]
+*$py.class
+
+# -- Virtualenv --
+venv/
+.venv/
+env/
+.venv*/    # Якщо маєте декілька віртуальних середовищ
+
+# -- Django/Database --
+db.sqlite3
+*.sqlite3
+
+# -- OS or IDE-specific --
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# -- Environment variables --
+.env
+*.env
+
+# -- Build/Dist --
+build/
+dist/
+*.egg-info/
+*.egg
+
+# -- Logs --
+*.log
+logs/
