@@ -21,7 +21,7 @@ def save_zones(zones):
 
 @csrf_exempt
 def zones_api(request):
-    # Штучна затримка на 5 секунд для кожної операції
+    # Delay 5 sec
     time.sleep(5)
     
     if request.method == 'GET':
@@ -34,9 +34,9 @@ def zones_api(request):
             name = data.get('name')
             points = data.get('points')
             if not name or not points or len(points) != 4:
-                return HttpResponseBadRequest("Невірний формат даних")
+                return HttpResponseBadRequest("Wrong data format")
         except Exception:
-            return HttpResponseBadRequest("Невірний JSON")
+            return HttpResponseBadRequest("Wrong JSON format")
         
         zones = load_zones()
         new_id = max([zone['id'] for zone in zones] + [0]) + 1
@@ -50,14 +50,14 @@ def zones_api(request):
             data = json.loads(request.body)
             zone_id = data.get('id')
             if zone_id is None:
-                return HttpResponseBadRequest("Відсутній id зони")
+                return HttpResponseBadRequest("Zone ID not found")
         except Exception:
-            return HttpResponseBadRequest("Невірний JSON")
+            return HttpResponseBadRequest("Wrong JSON format")
         
         zones = load_zones()
         filtered_zones = [zone for zone in zones if zone['id'] != zone_id]
         if len(zones) == len(filtered_zones):
-            return HttpResponseBadRequest("Зону з таким id не знайдено")
+            return HttpResponseBadRequest("No zone with provided ID.")
         save_zones(filtered_zones)
         return JsonResponse({"status": "deleted"})
     

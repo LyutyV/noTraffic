@@ -7,14 +7,13 @@ import * as ZoneSelectors from '../../store/zone/zone.selectors';
 import { IDot } from '../../interfaces/dot.interface';
 import { AppZoneListComponent } from '../app-zone-list/app-zone-list.component';
 import { ZoneCanvasComponent } from '../app-zone-canvas/app-zone-canvas.component';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'zone-manager',
     templateUrl: './zone-manager.component.html',
     styleUrls: ['./zone-manager.component.scss'],
     imports: [CommonModule, AppZoneListComponent, ZoneCanvasComponent],
-    providers: [AsyncPipe],
 })
 export class ZoneManagerComponent {
     zones$: Observable<IPolygon[]>;
@@ -39,7 +38,7 @@ export class ZoneManagerComponent {
                 return;
             }
             const newZone: IPolygon = {
-                id: this.generateId(),
+                id: '',
                 name: zoneName.trim(),
                 points: zoneData.points as [IDot, IDot, IDot, IDot],
             };
@@ -53,9 +52,5 @@ export class ZoneManagerComponent {
 
     onZoneSelect(zoneId: string): void {
         this.store.dispatch(ZoneActions.selectZone({ id: zoneId }));
-    }
-
-    private generateId(): string {
-        return Math.random().toString(36).substr(2, 9);
     }
 }
