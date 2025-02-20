@@ -13,5 +13,6 @@ export const ZoneActions = createActionGroup({
         deleteZone: props<{ id: string }>(),
         deleteZoneSuccess: props<{ id: string }>(),
         deleteZoneFailure: props<{ error: any }>(),
+        selectZone: props<{ id: string }>(),
     },
 });

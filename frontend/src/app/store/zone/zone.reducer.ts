@@ -51,5 +51,9 @@ export const zoneReducer = createReducer(
         ...state,
         loading: false,
         error,
+    })),
+    on(ZoneActions.selectZone, (state, { id }) => ({
+        ...state,
+        zones: state.zones.map((zone) => (zone.id === id ? { ...zone, isSelected: true } : { ...zone, isSelected: false })),
     }))
 );

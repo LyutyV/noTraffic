@@ -12,8 +12,13 @@ export class AppZoneListComponent {
     @Input() zones: IPolygon[] = [];
     @Input() loading: boolean = false;
     @Output() deleteZone = new EventEmitter<string>();
+    @Output() selectZone = new EventEmitter<string>();
 
     onDeleteZone(zoneId: string): void {
-        this.deleteZone.emit(zoneId);
+        if (confirm('Are you sure you want to delete zone?')) this.deleteZone.emit(zoneId);
+    }
+
+    onSelectZone(zoneId: string): void {
+        this.selectZone.emit(zoneId);
     }
 }

@@ -9,6 +9,7 @@ import { IDot } from '../../interfaces/dot.interface';
 })
 export class ZoneCanvasComponent implements OnInit, AfterViewInit, OnChanges {
     @Input() zones: IPolygon[] = [];
+    @Input() loading: boolean = false;
     @Output() createZone = new EventEmitter<{ points: (IDot | null)[] }>();
     @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
     private ctx!: CanvasRenderingContext2D;
@@ -38,6 +39,9 @@ export class ZoneCanvasComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     onCanvasClick(event: MouseEvent): void {
+        if (this.loading) {
+            return;
+        }
         const rect = this.canvasRef.nativeElement.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;
@@ -59,7 +63,7 @@ export class ZoneCanvasComponent implements OnInit, AfterViewInit, OnChanges {
         this.ctx.drawImage(this.backgroundImage, 0, 0, canvas.width, canvas.height);
         if (this.zones) {
             this.zones.forEach((zone) => {
-                this.drawZone(zone.points);
+                this.drawZone(zone);
             });
         }
         if (this.tempPoints.length > 0) {
@@ -67,12 +71,12 @@ export class ZoneCanvasComponent implements OnInit, AfterViewInit, OnChanges {
         }
     }
 
-    private drawZone(points: (IDot | null)[]): void {
-        const validPoints = points.filter((p) => p !== null) as IDot[];
+    private drawZone(zone: IPolygon): void {
+        const validPoints = zone.points.filter((p) => p !== null) as IDot[];
         if (validPoints.length === 0) {
             return;
         }
-        this.ctx.strokeStyle = 'red';
+        this.ctx.strokeStyle = zone.isSelected ? 'green' : 'red';
         this.ctx.lineWidth = 2;
         this.ctx.beginPath();
         this.ctx.moveTo(validPoints[0].x, validPoints[0].y);

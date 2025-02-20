@@ -28,18 +28,14 @@ export class ZoneManagerComponent {
 
     onCreateZone(zoneData: { points: (IDot | null)[] }): void {
         setTimeout(() => {
-            if (!zoneData.points || zoneData.points.length !== 4) {
-                alert('Зона повинна містити рівно 4 координати.');
-                return;
-            }
             const validPoints = zoneData.points.every((point) => point !== null);
             if (!validPoints) {
-                alert('Усі 4 точки мають бути заповнені.');
+                alert('All 4 dots required to create zone');
                 return;
             }
-            const zoneName = prompt('Введіть назву зони:');
+            const zoneName = prompt('Enter zone name');
             if (!zoneName || zoneName.trim() === '') {
-                alert("Ім'я зони є обов'язковим.");
+                alert('Zone name is required');
                 return;
             }
             const newZone: IPolygon = {
@@ -53,6 +49,10 @@ export class ZoneManagerComponent {
 
     onDeleteZone(zoneId: string): void {
         this.store.dispatch(ZoneActions.deleteZone({ id: zoneId }));
+    }
+
+    onZoneSelect(zoneId: string): void {
+        this.store.dispatch(ZoneActions.selectZone({ id: zoneId }));
     }
 
     private generateId(): string {

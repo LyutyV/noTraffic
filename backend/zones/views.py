@@ -22,7 +22,7 @@ def save_zones(zones):
 @csrf_exempt
 def zones_api(request):
     # Штучна затримка на 5 секунд для кожної операції
-    time.sleep(0.5)
+    time.sleep(5)
     
     if request.method == 'GET':
         zones = load_zones()

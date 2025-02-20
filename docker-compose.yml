@@ -1,39 +1,23 @@
 version: '3.8'
 
 services:
-    backend:
-        build:
-            context: .
-            dockerfile: Dockerfile.backend
-        container_name: django_app
-        ports:
-            - '8000:8000'
-        volumes:
-            - ./backend:/app
-        depends_on:
-            - mongo
-        environment:
-            - MONGO_HOST=mongo
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: django_app
+    # "expose" робить порт доступним всередині мережі Docker, але не публікує його на хост
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
 
-    frontend:
-        build:
-            context: .
-            dockerfile: Dockerfile.frontend
-        container_name: angular_app
-        ports:
-            - '4200:4200'
-        volumes:
-            - ./frontend/angular_app:/app
-        depends_on:
-            - backend
-
-    mongo:
-        image: mongo:6
-        container_name: mongo_db
-        ports:
-            - '27017:27017'
-        volumes:
-            - mongo_data:/data/db
-
-volumes:
-    mongo_data:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: angular_app
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
